@@ -39,7 +39,18 @@ class UserService {
         }
     };
 
-
+// get user info on profile page 
+    static async getUserProfile (userId) {
+        return await UserModel.findById(userId).select('-password');
+    };
+   //update user info 
+    static async updateUserProfile  (userId, updatedUserData) {
+        await UserModel.findByIdAndUpdate(userId, updatedUserData);
+    };
+    // to delete user 
+    static async deleteUser (userId) {
+        await UserModel.findByIdAndDelete(userId);
+    };
 
     // services/userService.js
 

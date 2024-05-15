@@ -85,6 +85,52 @@ exports.verifyOTP = (req,res,next)=> {
     });
 };
 
+
+// that one use it on the profile page to get the user information 
+exports.getUserProfile = async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const userProfile = await UserService.getUserProfile(userId);
+        res.json(userProfile);
+    } catch (error) {
+        console.error('Error fetching user profile:', error);
+        res.status(500).json({ error: 'Failed to fetch user profile' });
+    }
+};
+
+
+// that one use it on the profile page to update the user information 
+
+exports.updateUserProfile = async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const updatedUserData = req.body;
+        await UserService.updateUserProfile(userId, updatedUserData);
+        res.json({ message: 'User profile updated successfully' });
+    } catch (error) {
+        console.error('Error updating user profile:', error);
+        res.status(500).json({ error: 'Failed to update ' });
+    }
+};
+
+
+// that one use it on the profile page delete the user  
+
+exports.deleteUser = async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        await UserService.deleteUser(userId);
+        res.json({ message: 'User deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting user:', error);
+        res.status(500).json({ error: 'Failed to delete user' });
+    }
+};
+
+
+
+
+// update the user location
 exports.saveLocation = (req,res,next)=> {
     async (req, res) => {
         const { userId, latitude, longitude } = req.body;
@@ -113,7 +159,7 @@ exports.saveLocation = (req,res,next)=> {
 
 
 
-        // that one help us to get tower info like number when driver tap on the spicified tower on the map
+// that one help us to get tower info like number when driver tap on the spicified tower on the map
         exports.getTowerInfo = async (req, res) => {
             const towerId = req.params.id;
             try {
