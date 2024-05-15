@@ -45,26 +45,42 @@ class UserService {
 
     static async saveUserLocation(userId, latitude, longitude) {
         try {
-          // Find the user by userId and update the latitude and longitude
           const user = await UserModel.findByIdAndUpdate(
-            userId, // User ID to search for
-            { latitude, longitude }, // New latitude and longitude values
-            { new: true } // Return the updated document after update
+            userId, 
+            { latitude, longitude }, 
+            { new: true } 
           );
-      
-          // If user is not found, throw an error
           if (!user) {
             throw new Error('User not found');
           }
-      
-          // Return the updated user document
           return user;
         } catch (error) {
-          // Catch any errors and rethrow them
           throw error;
         }
-      }
+      };
       
+
+      // that funtions help us to show all  towers on the app 
+     static async getTowerLocations() {
+        try {
+            const towers = await TowerModel.find({ type: 'tower' }).select('latitude longitude');
+            return towers;
+        } catch (error) {
+            throw error;
+        }
+    };
+    
+        // that one help us to get tower info like number when driver tap on the spicified tower on the map
+
+static async getTowerInfo (towerId)  {
+    try {
+        const tower = await TowerModel.findOne({ _id: towerId, type: 'tower' });
+        return tower;
+    } catch (error) {
+        throw error;
+    }
+};
+
 
     static async generateToken(tokenData, secretKey, jwt_expire) {
         return jwt.sign(tokenData, secretKey, { expiresIn: jwt_expire });
@@ -123,6 +139,8 @@ class UserService {
             return callback("Error verifying OTP");
         }
     }
+
+    
 }
 
 module.exports = UserService;
