@@ -97,4 +97,35 @@ exports.saveLocation = (req,res,next)=> {
             res.status(500).json({ error: 'Failed to save location' });
         }
     }
+
+
+
+//that one help us to show all towers on map 
+    exports.getTowerLocations = async (req, res) => {
+        try {
+            const towers = await towerService.getTowerLocations();
+            res.json(towers);
+        } catch (error) {
+            console.error('Error fetching tower locations:', error);
+            res.status(500).json({ error: 'Failed to fetch tower locations' });
+        }}
+
+
+
+
+        // that one help us to get tower info like number when driver tap on the spicified tower on the map
+        exports.getTowerInfo = async (req, res) => {
+            const towerId = req.params.id;
+            try {
+                const tower = await towerService.getTowerInfo(towerId);
+                if (!tower) {
+                    return res.status(404).json({ message: 'Tower not found' });
+                }
+                res.json(tower);
+            } catch (error) {
+                console.error('Error fetching tower information:', error);
+                res.status(500).json({ error: 'Failed to fetch tower information' });
+            }
+        };
+
 };

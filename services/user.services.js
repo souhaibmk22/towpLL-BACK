@@ -102,7 +102,6 @@ static async getTowerInfo (towerId)  {
 
         console.log(`Your OTP is: ${otp}`);
 
-        // Return the generated hash with expiration time
         return callback(null, fullHash);
     }
 
