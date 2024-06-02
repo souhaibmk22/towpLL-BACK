@@ -72,26 +72,24 @@ class UserService {
       
 
       // that funtions help us to show all  towers on the app 
-     static async getTowerLocations() {
+      static async getTowerLocations() {
         try {
-            const towers = await TowerModel.find({ type: 'tower' }).select('latitude longitude');
+            const towers = await UserModel.find({ userType: 'tower' }).select('latitude longitude');
             return towers;
         } catch (error) {
             throw error;
         }
-    };
-    
+    }
         // that one help us to get tower info like number when driver tap on the spicified tower on the map
 
-static async getTowerInfo (towerId)  {
-    try {
-        const tower = await TowerModel.findOne({ _id: towerId, type: 'tower' });
-        return tower;
-    } catch (error) {
-        throw error;
-    }
-};
-
+        static async getTowerInfo(towerId) {
+            try {
+                const tower = await UserModel.findOne({ _id: towerId, userType: 'tower' });
+                return tower;
+            } catch (error) {
+                throw error;
+            }
+        }
 
     static async generateToken(tokenData, secretKey, jwt_expire) {
         return jwt.sign(tokenData, secretKey, { expiresIn: jwt_expire });
